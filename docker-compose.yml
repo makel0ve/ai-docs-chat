@@ -1,0 +1,112 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: aidocs_postgres
+    environment:
+      POSTGRES_USER: aidocs
+      POSTGRES_PASSWORD: aidocs
+      POSTGRES_DB: aidocs
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aidocs -d aidocs"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: aidocs_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: aidocs_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+  app:
+    build: .
+    container_name: aidocs_app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/code
+      - ./uploads:/code/uploads
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  worker:
+    build: .
+    container_name: aidocs_worker
+    command: taskiq worker worker.broker:broker worker.tasks
+    volumes:
+      - .:/code
+      - ./uploads:/code/uploads
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  dashboard:
+    image: ghcr.io/danfimov/taskiq-dashboard:latest
+    container_name: aidocs_dashboard
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      TASKIQ_DASHBOARD__STORAGE_TYPE: postgres
+      TASKIQ_DASHBOARD__POSTGRES__HOST: postgres
+      TASKIQ_DASHBOARD__POSTGRES__PORT: 5432
+      TASKIQ_DASHBOARD__POSTGRES__USER: aidocs
+      TASKIQ_DASHBOARD__POSTGRES__PASSWORD: aidocs
+      TASKIQ_DASHBOARD__POSTGRES__DATABASE: aidocs
+      TASKIQ_DASHBOARD__API__TOKEN: supersecret
+    ports:
+      - "5555:8000"
+        
+  ui:
+    build: .
+    container_name: aidocs_ui
+    command: streamlit run ui/streamlit_app.py --server.address=0.0.0.0 --server.port=8501
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/code
+    env_file:
+      - .env
+    depends_on:
+      - app
+
+volumes:
+  postgres_data:
+  redis_data:
+  ollama_data:

@@ -1,0 +1,198 @@
+[
+    {
+        "question": "Сколько домашних животных можно содержать в одной квартире?",
+        "expected_keywords": ["два", "2"],
+        "expected_source": "test_animals_rules.txt",
+        "expected_chunk_index": 0,
+        "type": "factual"
+    },
+    {
+        "question": "Каких животных запрещено содержать в квартирах?",
+        "expected_keywords": ["рептилий", "ядовитых", "сельскохозяйственных"],
+        "expected_source": "test_animals_rules.txt",
+        "expected_chunk_index": 0,
+        "type": "factual"
+    },
+    {
+        "question": "Какой штраф за нарушение правил выгула?",
+        "expected_keywords": ["2000", "рублей"],
+        "expected_source": "test_animals_rules.txt",
+        "expected_chunk_index": 1,
+        "type": "factual"
+    },
+    {
+        "question": "В какие часы лай собаки считается нарушением тишины?",
+        "expected_keywords": ["22:00", "08:00", "15 минут"],
+        "expected_source": "test_animals_rules.txt",
+        "expected_chunk_index": 0,
+        "type": "factual"
+    },
+    {
+        "question": "Кто является контактным лицом по вопросам содержания животных?",
+        "expected_keywords": ["Петрова", "Елена"],
+        "expected_source": "test_animals_rules.txt",
+        "expected_chunk_index": 1,
+        "type": "factual"
+    },
+    {
+        "question": "Какой штраф за отсутствие регистрации животного?",
+        "expected_keywords": ["1500", "рублей"],
+        "expected_source": "test_animals_rules.txt",
+        "expected_chunk_index": 1,
+        "type": "factual"
+    },
+    {
+        "question": "Где разрешён выгул собак?",
+        "expected_keywords": ["площадка", "44", "Обь"],
+        "expected_source": "test_animals_rules.txt",
+        "expected_chunk_index": 0,
+        "type": "factual"
+    },
+    {
+        "question": "Сколько стоит хачапури по-аджарски?",
+        "expected_keywords": ["490", "руб"],
+        "expected_source": "test_menu_restaurant.docx",
+        "expected_chunk_index": 0,
+        "type": "factual"
+    },
+    {
+        "question": "Из чего делают пхали?",
+        "expected_keywords": ["шпинат", "орех", "чеснок"],
+        "expected_source": "test_menu_restaurant.docx",
+        "expected_chunk_index": 0,
+        "type": "factual"
+    },
+    {
+        "question": "Какой средний чек в ресторане?",
+        "expected_keywords": ["1800", "руб"],
+        "expected_source": "test_menu_restaurant.docx",
+        "expected_chunk_index": 0,
+        "type": "factual"
+    },
+    {
+        "question": "Какое вино подаётся по бокалам?",
+        "expected_keywords": ["Саперави", "Цинандали"],
+        "expected_source": "test_menu_restaurant.docx",
+        "expected_chunk_index": 0,
+        "type": "factual"
+    },
+    {
+        "question": "Какой минимальный заказ хинкали?",
+        "expected_keywords": ["5", "шт"],
+        "expected_source": "test_menu_restaurant.docx",
+        "expected_chunk_index": 0,
+        "type": "factual"
+    },
+    {
+        "question": "До скольки работает ресторан?",
+        "expected_keywords": ["23:00"],
+        "expected_source": "test_menu_restaurant.docx",
+        "expected_chunk_index": 0,
+        "type": "factual"
+    },
+    {
+        "question": "Сколько весит велосипед Trail Master X7 Pro?",
+        "expected_keywords": ["12,8", "кг"],
+        "expected_source": "test_bike_specs__1_.pdf",
+        "expected_chunk_index": 0,
+        "type": "factual"
+    },
+    {
+        "question": "Какая вилка установлена на велосипеде?",
+        "expected_keywords": ["RockShox", "Recon", "120"],
+        "expected_source": "test_bike_specs__1_.pdf",
+        "expected_chunk_index": 0,
+        "type": "factual"
+    },
+    {
+        "question": "Как часто нужно менять цепь?",
+        "expected_keywords": ["5000", "км"],
+        "expected_source": "test_bike_specs__1_.pdf",
+        "expected_chunk_index": 1,
+        "type": "factual"
+    },
+    {
+        "question": "Какой тормозной путь у велосипеда?",
+        "expected_keywords": ["7", "метр"],
+        "expected_source": "test_bike_specs__1_.pdf",
+        "expected_chunk_index": 1,
+        "type": "factual"
+    },
+    {
+        "question": "Какая максимальная нагрузка на раму?",
+        "expected_keywords": ["120", "кг"],
+        "expected_source": "test_bike_specs__1_.pdf",
+        "expected_chunk_index": 0,
+        "type": "factual"
+    },
+    {
+        "question": "Какой размер колёс у велосипеда?",
+        "expected_keywords": ["29"],
+        "expected_source": "test_bike_specs__1_.pdf",
+        "expected_chunk_index": 1,
+        "type": "factual"
+    },
+    {
+        "question": "Сколько кнопок у клавиатуры ARDOR GAMING Blade?",
+        "expected_keywords": ["104"],
+        "expected_source": "ardor-gaming-blade_instrukcia_222039_07062025.pdf",
+        "expected_chunk_index": 1,
+        "type": "factual"
+    },
+    {
+        "question": "Какой переключатель используется в клавиатуре?",
+        "expected_keywords": ["Kailh", "Blue"],
+        "expected_source": "ardor-gaming-blade_instrukcia_222039_07062025.pdf",
+        "expected_chunk_index": 1,
+        "type": "factual"
+    },
+    {
+        "question": "Как сбросить клавиатуру к заводским настройкам?",
+        "expected_keywords": ["FN", "ESC", "5"],
+        "expected_source": "ardor-gaming-blade_instrukcia_222039_07062025.pdf",
+        "expected_chunk_index": 1,
+        "type": "factual"
+    },
+    {
+        "question": "Какой ресурс переключателя клавиатуры?",
+        "expected_keywords": ["70", "миллион"],
+        "expected_source": "ardor-gaming-blade_instrukcia_222039_07062025.pdf",
+        "expected_chunk_index": 1,
+        "type": "factual"
+    },
+    {
+        "question": "Кто производитель клавиатуры ARDOR GAMING?",
+        "expected_keywords": ["FL", "Esports", "Китай"],
+        "expected_source": "ardor-gaming-blade_instrukcia_222039_07062025.pdf",
+        "expected_chunk_index": 5,
+        "type": "factual"
+    },
+    {
+        "question": "При какой температуре нужно хранить клавиатуру?",
+        "expected_keywords": ["5", "40"],
+        "expected_source": "ardor-gaming-blade_instrukcia_222039_07062025.pdf",
+        "expected_chunk_index": 4,
+        "type": "factual"
+    },
+    {
+        "question": "Какой курс доллара на сегодня?",
+        "expected_keywords": [],
+        "expected_source": null,
+        "expected_chunk_index": null,
+        "type": "negative"
+    },
+    {
+        "question": "Как подключить клавиатуру по Bluetooth?",
+        "expected_keywords": [],
+        "expected_source": null,
+        "expected_chunk_index": null,
+        "type": "negative"
+    },
+    {
+        "question": "Есть ли в меню суши?",
+        "expected_keywords": [],
+        "expected_source": null,
+        "expected_chunk_index": null,
+        "type": "negative"
+    }
+]

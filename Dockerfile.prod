@@ -1,0 +1,25 @@
+FROM python:3.14-slim AS builder
+
+WORKDIR /code
+
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+FROM python:3.14-slim
+
+COPY --from=builder /opt/venv /opt/venv
+
+WORKDIR /code
+
+COPY . .
+
+ENV PATH="/opt/venv/bin:$PATH"

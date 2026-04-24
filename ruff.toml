@@ -1,0 +1,12 @@
+line-length = 88
+target-version = "py314"
+
+[lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]
+
+[format]
+quote-style = "double"
+
+[lint.per-file-ignores]
+"app/models/*.py" = ["F821"]

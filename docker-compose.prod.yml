@@ -1,0 +1,97 @@
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: aidocs_postgres
+    environment:
+      POSTGRES_USER: aidocs
+      POSTGRES_PASSWORD: aidocs
+      POSTGRES_DB: aidocs
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aidocs -d aidocs"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: always
+
+  redis:
+    image: redis:7-alpine
+    container_name: aidocs_redis
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: always
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: aidocs_ollama
+    volumes:
+      - ollama_data:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    restart: always
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: aidocs_app
+    command: gunicorn app.main:app -k uvicorn.workers.UvicornWorker -w 2 --bind 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./uploads:/code/uploads
+    env_file:
+      - .env.prod
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: always
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: aidocs_worker
+    command: taskiq worker worker.broker:broker worker.tasks
+    volumes:
+      - ./uploads:/code/uploads
+    env_file:
+      - .env.prod
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: always
+
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    container_name: aidocs_ui
+    command: streamlit run ui/streamlit_app.py --server.address=0.0.0.0 --server.port=8501
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env.prod
+    depends_on:
+      - app
+    restart: always
+
+volumes:
+  postgres_data:
+  redis_data:
+  ollama_data:
