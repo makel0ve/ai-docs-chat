@@ -63,10 +63,10 @@ for message in st.session_state.messages:
         st.write(message["content"])
         if message["role"] == "assistant" and message.get("chunks"):
             with st.expander("📎 Источники"):
-                sources = [int(n) for n in re.findall(r'\[(\d+)\]', message["content"])]
+                sources = [int(n) for n in re.findall(r"\[(\d+)\]", message["content"])]
                 for i, chunk in enumerate(message["chunks"]):
                     if i + 1 in sources:
-                        st.write(f"[{i+1}] {chunk['content']}...")
+                        st.write(f"[{i + 1}] {chunk['content']}...")
 
 question = st.chat_input()
 
@@ -164,4 +164,6 @@ if question:
                 if i + 1 in sources:
                     st.write(f"[{i + 1}] {chunk['content']}...")
 
-    st.session_state.messages.append({"role": "assistant", "content": answer, "chunks": st.session_state.last_chunks})
+    st.session_state.messages.append(
+        {"role": "assistant", "content": answer, "chunks": st.session_state.last_chunks}
+    )
