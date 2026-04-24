@@ -4,7 +4,7 @@ RAG-сервис для поиска и ответов по документам
 
 ![Demo](demo.gif)
 
-## Quickstart
+## Быстрый старт
 
 ```bash
 git clone https://github.com/makel0ve/ai-docs-chat.git
@@ -16,7 +16,7 @@ docker compose up -d
 - UI: http://localhost:8501
 - API: http://localhost:8000/docs
 
-## Architecture
+## Архитектура
 
 ```mermaid
 graph LR
@@ -35,7 +35,7 @@ graph LR
     LLM --> Ollama
 ```
 
-## Tech Stack
+## Технологии
 
 ![Python](https://img.shields.io/badge/Python-3.14-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-latest-green)
@@ -46,18 +46,18 @@ graph LR
 ![Streamlit](https://img.shields.io/badge/Streamlit-UI-red)
 ![Ruff](https://img.shields.io/badge/Ruff-linter-orange)
 
-## Features
+## Возможности
 
 - Загрузка документов PDF, DOCX, TXT с асинхронной индексацией
 - Семантический поиск по документам через pgvector (cosine distance)
-- RAG-ответы с цитатами из источников
+- Ответы на основе документов с указанием источников
 - Стриминг ответов (SSE) для всех провайдеров
 - Переключение между LLM-провайдерами: GigaChat, YandexGPT, Ollama
 - Кэширование эмбеддингов и ответов в Redis
 - История чатов с сохранением в БД
 - Фоновая индексация через Taskiq
 
-## Evaluation
+## Оценка качества
 
 Сравнение провайдеров на eval-сете из 28 вопросов по 4 документам:
 
