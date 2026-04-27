@@ -52,11 +52,6 @@ class GigaChatProvider(LLMProvider):
 
         return self._access_token
 
-    @retry(
-        stop=stop_after_attempt(5),
-        wait=wait_random(1, 3),
-        retry=retry_if_exception_type(httpx.HTTPError),
-    )
     async def _chat_stream(self, messages, force_refresh_token: bool = False):
         token = await self.get_token(force=force_refresh_token)
 

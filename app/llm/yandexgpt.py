@@ -50,11 +50,6 @@ class YandexGPTProvider(LLMProvider):
 
         return text
 
-    @retry(
-        stop=stop_after_attempt(5),
-        wait=wait_random(1, 3),
-        retry=retry_if_exception_type(httpx.HTTPError),
-    )
     async def _chat_stream(self, messages):
         headers = {
             "Content-Type": "application/json",
@@ -92,11 +87,6 @@ class YandexGPTProvider(LLMProvider):
 
                     yield text_current
 
-    @retry(
-        stop=stop_after_attempt(5),
-        wait=wait_random(1, 3),
-        retry=retry_if_exception_type(httpx.HTTPError),
-    )
     async def chat(self, messages, stream=False):
         if stream:
             return self._chat_stream(messages=messages)

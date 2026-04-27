@@ -17,7 +17,11 @@ class OllamaProvider(LLMProvider):
         retry=retry_if_exception_type(httpx.HTTPError),
     )
     async def _chat_request(self, messages):
-        payload = {"model": "qwen2.5:7b", "messages": messages, "stream": False}
+        payload = {
+            "model": self._settings.ollama_chat_model,
+            "messages": messages,
+            "stream": False,
+        }
         async with httpx.AsyncClient(timeout=120) as client:
             response = await client.post(
                 url=f"{self._settings.ollama_url}/api/chat", json=payload
@@ -29,13 +33,12 @@ class OllamaProvider(LLMProvider):
 
             return content
 
-    @retry(
-        stop=stop_after_attempt(5),
-        wait=wait_random(1, 3),
-        retry=retry_if_exception_type(httpx.HTTPError),
-    )
     async def _chat_stream(self, messages):
-        payload = {"model": "qwen2.5:7b", "messages": messages, "stream": True}
+        payload = {
+            "model": self._settings.ollama_chat_model,
+            "messages": messages,
+            "stream": True,
+        }
         async with httpx.AsyncClient(timeout=120) as client:
             async with client.stream(
                 "POST", url=f"{self._settings.ollama_url}/api/chat", json=payload
@@ -53,11 +56,6 @@ class OllamaProvider(LLMProvider):
                         if content:
                             yield content
 
-    @retry(
-        stop=stop_after_attempt(5),
-        wait=wait_random(1, 3),
-        retry=retry_if_exception_type(httpx.HTTPError),
-    )
     async def chat(self, messages, stream=False):
         if stream:
             return self._chat_stream(messages=messages)
